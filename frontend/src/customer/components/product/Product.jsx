@@ -15,7 +15,7 @@ import { mens_kurta } from "../../../data/Men/men_kurta";
 import { filters, singleFilter } from "./filterData";
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { FormControl } from "@mui/base";
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -66,7 +66,7 @@ export default function Product() {
                     <h2 className="text-lg font-medium text-gray-900">
                       Filters
                     </h2>
-                    < FilterListIcon/>
+                    <FilterListIcon />
                     <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
@@ -78,7 +78,7 @@ export default function Product() {
                   </div>
 
                   {/* Filters */}
-                  {/* <form className="mt-4 border-t border-gray-200">
+                  <form className="mt-4 border-t border-gray-200">
                 
 
                     {filters.map((section) => (
@@ -138,7 +138,7 @@ export default function Product() {
                         )}
                       </Disclosure>
                     ))}
-                  </form> */}
+                  </form> 
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -148,7 +148,7 @@ export default function Product() {
         <main className="mx-auto px-4 sm:px-6 lg:px-20">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              New Arrivals
+              Products
             </h1>
 
             <div className="flex items-center">
@@ -221,130 +221,129 @@ export default function Product() {
             </h2>
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
-
-                <div>
+              <div>
                 <div className="flex justify-between items-center">
-                <h1 className="opacity-50 text-lg font-bold">Filters</h1>
-                      <FilterListIcon />
-                    </div>
-             
-              <form className="hidden lg:block">
-                {filters.map((section) => (
-                  <Disclosure
-                    as="div"
-                    key={section.id}
-                    className="border-b border-gray-200 py-6"
-                  >
-                    {({ open }) => (
-                      <>
-                        <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                            <span className="font-medium text-gray-900">
-                              {section.name}
-                            </span>
-                            <span className="ml-6 flex items-center">
-                              {open ? (
-                                <MinusIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <PlusIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </h3>
-                        <Disclosure.Panel className="pt-6">
-                          <div className="space-y-4">
-                            {section.options.map((option, optionIdx) => (
-                              <div
-                                key={option.value}
-                                className="flex items-center"
-                              >
-                                <input
-                                  id={`filter-${section.id}-${optionIdx}`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.value}
-                                  type="checkbox"
-                                  defaultChecked={option.checked}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <label
-                                  htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
+                  <h1 className="opacity-50 text-lg font-bold">Filters</h1>
+                  <FilterListIcon />
+                </div>
+
+                <form className="hidden lg:block">
+                  {filters.map((section) => (
+                    <Disclosure
+                      as="div"
+                      key={section.id}
+                      className="border-b border-gray-200 py-6"
+                    >
+                      {({ open }) => (
+                        <>
+                          <h3 className="-my-3 flow-root">
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                              <span className="font-medium text-gray-900">
+                                {section.name}
+                              </span>
+                              <span className="ml-6 flex items-center">
+                                {open ? (
+                                  <MinusIcon
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
+                                ) : (
+                                  <PlusIcon
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="space-y-4">
+                              {section.options.map((option, optionIdx) => (
+                                <div
+                                  key={option.value}
+                                  className="flex items-center"
                                 >
-                                  {option.label}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </Disclosure.Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
-                {singleFilter.map((section) => (
-                  <Disclosure
-                    as="div"
-                    key={section.id}
-                    className="border-b border-gray-200 py-6"
-                  >
-                    {({ open }) => (
-                      <>
-                        <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                            <FormLabel
-                            sx={{color:"black"}}
-                              className=" text-gray-900"
-                              id="demo-radio-buttons-group-label"
-                            >
-                              {" "}
-                              {section.name}
-                            </FormLabel>
-                            <span className="ml-6 flex items-center">
-                              {open ? (
-                                <MinusIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <PlusIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </h3>
-                        <Disclosure.Panel className="pt-6">
-                          <div className="space-y-4">
-                            <FormControl>
-                              <RadioGroup
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                defaultValue={section[0]}
-                                name="radio-buttons-group"
+                                  <input
+                                    id={`filter-${section.id}-${optionIdx}`}
+                                    name={`${section.id}[]`}
+                                    defaultValue={option.value}
+                                    type="checkbox"
+                                    defaultChecked={option.checked}
+                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  />
+                                  <label
+                                    htmlFor={`filter-${section.id}-${optionIdx}`}
+                                    className="ml-3 text-sm text-gray-600"
+                                  >
+                                    {option.label}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                  ))}
+                  {singleFilter.map((section) => (
+                    <Disclosure
+                      as="div"
+                      key={section.id}
+                      className="border-b border-gray-200 py-6"
+                    >
+                      {({ open }) => (
+                        <>
+                          <h3 className="-my-3 flow-root">
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                              <FormLabel
+                                sx={{ color: "black" }}
+                                className=" text-gray-900"
+                                id="demo-radio-buttons-group-label"
                               >
-                                {section.options.map((option, optionIdx) => (
-                                  <>
-                                    <FormControlLabel
-                                      value="female"
-                                      control={<Radio />}
-                                      label={option.label}
-                                    />
-                                  </>
-                                ))}
-                              </RadioGroup>
-                            </FormControl>
-                          </div>
-                        </Disclosure.Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
-              </form>
+                                {" "}
+                                {section.name}
+                              </FormLabel>
+                              <span className="ml-6 flex items-center">
+                                {open ? (
+                                  <MinusIcon
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
+                                ) : (
+                                  <PlusIcon
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="space-y-4">
+                              <FormControl>
+                                <RadioGroup
+                                  aria-labelledby="demo-radio-buttons-group-label"
+                                  defaultValue={section[0]}
+                                  name="radio-buttons-group"
+                                >
+                                  {section.options.map((option, optionIdx) => (
+                                    <>
+                                      <FormControlLabel
+                                        value="female"
+                                        control={<Radio />}
+                                        label={option.label}
+                                      />
+                                    </>
+                                  ))}
+                                </RadioGroup>
+                              </FormControl>
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                  ))}
+                </form>
               </div>
               {/* Product grid */}
               <div className="lg:col-span-4 w-full">
