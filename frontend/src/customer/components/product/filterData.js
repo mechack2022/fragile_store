@@ -51,7 +51,7 @@ export const singleFilter = [
     options: [
       {
         value: "10",
-        label: "10^ and above",
+        label: "10% and above",
       },
       {
         value: "20",
