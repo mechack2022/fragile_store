@@ -9,7 +9,7 @@ const ProductReviewCard = () => {
           <Box>
             <Avatar
               className="text-white"
-              xs={{ width: 56, height: 56, bgcolor: "#9155Fd" }}
+              sx={{ width: 56, height: 56, bgcolor: "#9155Fd" }}
             >
               R
             </Avatar>
