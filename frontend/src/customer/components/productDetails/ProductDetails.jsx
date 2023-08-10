@@ -444,7 +444,7 @@ export default function ProductDetails() {
           <h1 className="py-5 font-bold text-xl">Similar Products</h1>
           <div className="flex flex-wrap space-y-5">
             {mens_kurta.map((item, index) => (
-              <HomeSectionCard product={item}/>
+              <HomeSectionCard product={item} />
             ))}
           </div>
         </section>
