@@ -5,7 +5,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const CartItem = () => {
   return (
-    <div className="p-9 shadow-lg border rounded-md">
+    <div className="p-9 my-6 shadow-lg border rounded-md">
       <div className="flex items-center">
         <div className="w-[5rem] h-[5rem] lg:w-[9rem] lg:h-[9rem] ">
           <img

@@ -5,6 +5,8 @@ import HomePages from './customer/pages/homePages/HomePages';
 import Footer from './customer/components/footer/Footer'
 import ProductDetails from './customer/components/productDetails/ProductDetails';
 import Cart from './customer/components/cart/Cart';
+import Checkout from './customer/components/checkout/checkout';
+import Order from './customer/components/order/Order';
 
 function App() {
   return (
@@ -14,7 +16,9 @@ function App() {
      {/* <HomePages/> */}
      {/* <Product/> */}
      {/* <ProductDetails/> */}
-     <Cart/>
+     {/* <Cart/> */}
+     {/* <Checkout/> */}
+     <Order/>
      </div>
      <Footer/>
     </div>
