@@ -1,20 +1,8 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useNavigate } from 'react-router-dom';
+import AuthModal from '../../auth/AuthModal';
 
 const navigation = {
   categories: [
@@ -61,7 +49,7 @@ const navigation = {
             { name: 'Sunglasses', href: '#' },
             { name: 'Hats', href: '#' },
             { name: 'Belts', href: '#' },
-          ],
+          ]
         },
         {
           id: 'brands',
@@ -144,7 +132,29 @@ function classNames(...classes) {
 }
 
 export default function Navigation() {
+
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate();
+  const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [anchorE1, setArchorE1] = useState(null);
+  const openUserMenu =Boolean(anchorE1);
+  const jwt = localStorage.getItem("jwt");
+
+  const handleUserClick =(e) =>{
+    setArchorE1(e.currentTarget);
+  }
+
+  const hanleCloseUserMenu =() =>{
+     setArchorE1(null)
+  }
+
+  const handleOpen = () =>{
+     setOpenAuthModal(true)
+  }
+
+  const handleClose = () =>{
+    setOpenAuthModal(false)
+ }
 
   return (
     <div className="bg-white">
@@ -464,6 +474,7 @@ export default function Navigation() {
           </div>
         </nav>
       </header>
+      <AuthModal handleClose={handleClose} open={handleOpen} />
     </div>
   )
 }

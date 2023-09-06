@@ -1,10 +1,27 @@
 import { Button, Grid, TextField } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
+
+  const navigate = useNavigate();
+
+   const handleSubmit = (e) =>{
+       e.prventDefault();
+
+       const data = new FormData(e.currentTarget)
+       const  userData = {
+          firstName:data.get("firstName"),
+          lastName:data.get("LastName"),
+          password:data.get("password"),
+          email: data.get("email"),
+       }
+       console.log("user data :", userData);
+    }
+
   return (
     <div>
-      <form >
+      <form onSubmit={handleSubmit} >
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -49,6 +66,18 @@ const RegistrationForm = () => {
           </Grid>
         </Grid>
       </form>
+      <div className="flex justify-center flex-col items-center ">
+        <div className="flex items-center py-3">
+          <p>if you have already have an account ? </p>
+          <Button
+            className="ml-5"
+            size="small"
+            onClick={() => navigate("/login")}
+          >
+            Register
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
