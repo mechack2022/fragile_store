@@ -52,13 +52,13 @@ export const LoginForm = () => {
       </form>
       <div className="flex justify-center flex-col items-center ">
         <div className="flex items-center py-3">
-          <p>if you have already have an account ? </p>
+          <p>if you have don not have an account ? </p>
           <Button
             className="ml-5"
             size="small"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/register")}
           >
-            Login
+            Login 
           </Button>
         </div>
       </div>

@@ -11,7 +11,7 @@ import DelieveryAdress from "./DelieveryAdress";
 
 const steps = ["Login", "Add Delivery Address", "Payment", "Order Summary"];
 
-export default function Checkout() {
+const Checkout =  () => {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const location = useLocation();
@@ -72,3 +72,4 @@ export default function Checkout() {
     </div>
   );
 }
+export default Checkout;
