@@ -27,7 +27,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Product() {
+const  Product = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -393,3 +393,5 @@ export default function Product() {
     </div>
   );
 }
+
+export default Product;
