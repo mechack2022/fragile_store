@@ -68,7 +68,7 @@ export default function ProductDetails() {
   const navigate = useNavigate();
 
   const handleAddToCart = () =>{
-    navigate("/cart")
+    navigate("/cart") 
   }
 
   return (

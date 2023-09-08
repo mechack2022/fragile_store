@@ -10,7 +10,7 @@ export const registerSucces  = (user) => ({type: REGISTER_SUCCESS, payload: user
 export const registerFailure = (error) =>({type: REGISTER_FIALURE, payload: error})
 
 export const register = ( userData ) => async(dispatch) => {
-    dispatch(registerRequest);
+    dispatch(registerRequest());
     try{
      const response = await axios.post(`${BASE_URL}/auth/signup`, userData);
      const user = await response.data;
@@ -30,7 +30,7 @@ export const loginSucces  = (loginData) => ({type: LOGIN_SUCESS, payload: loginD
 export const loginFailure = (error) =>({type: LOGIN_FAILURE, payload: error})
 
 export const login = ( loginData ) => async(dispatch) => {
-    dispatch(loginRequest);
+    dispatch(loginRequest());
     try{
      const response = await axios.post(`${BASE_URL}/auth/login`, loginData);
      const user = await response.data;
@@ -79,7 +79,7 @@ export const getUser = (jwt) => async (dispatch) => {
     if (user.jwt) {
       localStorage.setItem("jwt", user.jwt);
     }
-    console.log("user", user);
+    // console.log("user", user);
     dispatch(getUserSuccess(user));
   } catch (error) {
     console.log(error.user.data)

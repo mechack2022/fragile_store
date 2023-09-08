@@ -6,10 +6,10 @@ import CartItem from "./CartItems";
 const Cart = () => {
   const navigate = useNavigate();
 
-  const handleCheckout= () =>{
-    navigate("/checkout?step=2")
-  }
-  
+  const handleCheckout = () => {
+    navigate("/checkout?step=2");
+  };
+
   return (
     <div>
       <div className="lg:grid top-0 my-10 lg:grid-cols-3 lg:px-16 relative">
@@ -41,7 +41,7 @@ const Cart = () => {
               </div>
             </div>
             <Button
-            onClick={handleCheckout}
+              onClick={handleCheckout}
               className="w-full mt-5"
               color="primary"
               variant="contained"
