@@ -1,19 +1,23 @@
 import React from "react";
 import { Button, Grid, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../state/auth/Action";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    e.prventDefault();
+    e.preventDefault();
 
     const data = new FormData(e.currentTarget);
     const loginData = {
       password: data.get("password"),
       email: data.get("email"),
     };
-    console.log("user data :", loginData);
+    dispatch(login(loginData))
+    // console.log("user data :", loginData);
   };
   return (
     <div>
@@ -58,7 +62,7 @@ export const LoginForm = () => {
             size="small"
             onClick={() => navigate("/register")}
           >
-            Login 
+            REGISTER
           </Button>
         </div>
       </div>

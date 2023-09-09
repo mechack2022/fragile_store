@@ -1,5 +1,8 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Fade from "@mui/material/Fade";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -8,136 +11,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import AuthModal from "../../auth/AuthModal";
-
-const navigation = {
-  categories: [
-    {
-      id: "women",
-      name: "Women",
-      featured: [
-        {
-          name: "New Arrivals",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
-          imageAlt:
-            "Models sitting back to back, wearing Basic Tee in black and bone.",
-        },
-        {
-          name: "Basic Tees",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
-          imageAlt:
-            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
-        },
-      ],
-      sections: [
-        {
-          id: "clothing",
-          name: "Clothing",
-          items: [
-            { name: "Tops", href: "#" },
-            { name: "Dresses", href: "#" },
-            { name: "Pants", href: "#" },
-            { name: "Denim", href: "#" },
-            { name: "Sweaters", href: "#" },
-            { name: "T-Shirts", href: "#" },
-            { name: "Jackets", href: "#" },
-            { name: "Activewear", href: "#" },
-            { name: "Browse All", href: "#" },
-          ],
-        },
-        {
-          id: "accessories",
-          name: "Accessories",
-          items: [
-            { name: "Watches", href: "#" },
-            { name: "Wallets", href: "#" },
-            { name: "Bags", href: "#" },
-            { name: "Sunglasses", href: "#" },
-            { name: "Hats", href: "#" },
-            { name: "Belts", href: "#" },
-          ],
-        },
-        {
-          id: "brands",
-          name: "Brands",
-          items: [
-            { name: "Full Nelson", href: "#" },
-            { name: "My Way", href: "#" },
-            { name: "Re-Arranged", href: "#" },
-            { name: "Counterfeit", href: "#" },
-            { name: "Significant Other", href: "#" },
-          ],
-        },
-      ],
-    },
-    {
-      id: "men",
-      name: "Men",
-      featured: [
-        {
-          name: "New Arrivals",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
-          imageAlt:
-            "Drawstring top with elastic loop closure and textured interior padding.",
-        },
-        {
-          name: "Artwork Tees",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg",
-          imageAlt:
-            "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
-        },
-      ],
-      sections: [
-        {
-          id: "clothing",
-          name: "Clothing",
-          items: [
-            { name: "Tops", href: "#" },
-            { name: "Pants", href: "#" },
-            { name: "Sweaters", href: "#" },
-            { name: "T-Shirts", href: "#" },
-            { name: "Jackets", href: "#" },
-            { name: "Activewear", href: "#" },
-            { name: "Browse All", href: "#" },
-          ],
-        },
-        {
-          id: "accessories",
-          name: "Accessories",
-          items: [
-            { name: "Watches", href: "#" },
-            { name: "Wallets", href: "#" },
-            { name: "Bags", href: "#" },
-            { name: "Sunglasses", href: "#" },
-            { name: "Hats", href: "#" },
-            { name: "Belts", href: "#" },
-          ],
-        },
-        {
-          id: "brands",
-          name: "Brands",
-          items: [
-            { name: "Re-Arranged", href: "#" },
-            { name: "Counterfeit", href: "#" },
-            { name: "Full Nelson", href: "#" },
-            { name: "My Way", href: "#" },
-          ],
-        },
-      ],
-    },
-  ],
-  pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
-  ],
-};
+import { Avatar, Button } from "@mui/material";
+import { deepPurple } from "@mui/material/colors";
+import { navigationData } from "./navigationData";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, logout } from "../../../state/auth/Action";
+import { useLocation } from "react-router-dom";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -147,23 +26,38 @@ export default function Navigation() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [openAuthModal, setOpenAuthModal] = useState(false);
-  const [anchorE1, setArchorE1] = useState(null);
-  const openUserMenu = Boolean(anchorE1);
+  const [anchorEl, setArchorEl] = useState(null);
+
+  const location = useLocation()
+
+  const openUserMenu = Boolean(anchorEl);
+
   const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
 
-  const handleUserClick = (e) => {
-    setArchorE1(e.currentTarget);
+  const { authReducer } = useSelector((store) => store);
+
+  // const handleUserClick = (e) => {
+  //   setArchorEl(e.currentTarget);
+  // };
+
+  // const handleCloseUserMenu = () => {
+  //   setArchorEl(null);
+  // };
+
+  const handleOpenUserMenu = (e) => {
+    setArchorEl(e.currentTarget);
+  };
+  
+  const handleCloseUserMenu = () => {
+    setArchorEl(null);
   };
 
-  const hanleCloseUserMenu = () => {
-    setArchorE1(null);
-  };
-
-  const handleOpen = () => {
+  const handleOpenAuthModal = () => {
     setOpenAuthModal(true);
   };
 
-  const handleClose = () => {
+  const handleCloseAuthModal = () => {
     setOpenAuthModal(false);
   };
 
@@ -171,6 +65,28 @@ export default function Navigation() {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(jwt));
+      console.log(authReducer.user?.firstName)
+    }
+  }, [jwt, authReducer.jwt]);
+
+  useEffect(() => {
+    if (authReducer.user) {
+      handleCloseAuthModal();
+    }
+    if(location.pathname === "/login" || location.pathname === "/register" ){
+      navigate(-1);
+    }
+  }, [authReducer.user]);
+
+  // logout user 
+  const handleUserlogout = () =>{
+    dispatch(logout())
+    handleCloseUserMenu();
+  }
 
   return (
     <div className="bg-white">
@@ -215,7 +131,7 @@ export default function Navigation() {
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4">
-                      {navigation.categories.map((category) => (
+                      {navigationData.categories.map((category) => (
                         <Tab
                           key={category.name}
                           className={({ selected }) =>
@@ -233,7 +149,7 @@ export default function Navigation() {
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {navigation.categories.map((category) => (
+                    {navigationData.categories.map((category) => (
                       <Tab.Panel
                         key={category.name}
                         className="space-y-10 px-4 pb-8 pt-10"
@@ -299,7 +215,7 @@ export default function Navigation() {
                 </Tab.Group>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  {navigation.pages.map((page) => (
+                  {navigationData.pages.map((page) => (
                     <div key={page.name} className="flow-root">
                       <a
                         href={page.href}
@@ -384,9 +300,9 @@ export default function Navigation() {
               {/* Flyout menus */}
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
-                  {navigation.categories.map((category) => (
+                  {navigationData.categories.map((category) => (
                     <Popover key={category.name} className="flex">
-                      {({ open , close }) => (
+                      {({ open, close }) => (
                         <>
                           <div className="relative flex">
                             <Popover.Button
@@ -500,7 +416,7 @@ export default function Navigation() {
                     </Popover>
                   ))}
 
-                  {navigation.pages.map((page) => (
+                  {navigationData.pages.map((page) => (
                     <a
                       key={page.name}
                       href={page.href}
@@ -514,32 +430,49 @@ export default function Navigation() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Sign in
-                  </a>
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Create account
-                  </a>
+                  {authReducer.user?.firstName ? (
+                    <div>
+                      <Avatar
+                        className="text-white"
+                        onClick={handleOpenUserMenu}
+                        aria-controls={open ? "basic-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                        sx={{
+                          bgcolor: deepPurple[500],
+                          color: "white",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {authReducer.user?.firstName[0].toUpperCase()} 
+                      </Avatar>
+                      <Menu
+                        id="fade-menu"
+                        MenuListProps={{
+                          "aria-labelledby": "basic-button",
+                        }}
+                        anchorEl={anchorEl} 
+                        open={openUserMenu}
+                        onClose={handleCloseUserMenu}
+                      >
+                        <MenuItem onClick={handleCloseUserMenu}>
+                          Profile
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate("/account/order")}>
+                          My order
+                        </MenuItem>
+                        <MenuItem onClick={handleUserlogout}>Logout</MenuItem>
+                      </Menu>
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={handleOpenAuthModal}
+                      className="text-sm text-gray-700 font-medium hover:text-gray-800  "
+                    >
+                      Sigin
+                    </Button>
+                  )}
                 </div>
-
-                <div className="hidden lg:ml-8 lg:flex">
-                  <a
-                    href="#"
-                    className="flex items-center text-gray-700 hover:text-gray-800"
-                  >
-
-                  <h2 sx={{color:"white"}} className="text-xl text-center text-red-700 font-semibold border rounded-full bg-sky-700 p-3 py-2">R</h2>
-                    
-                  </a>
-                </div>
-
                 {/* Search */}
                 <div className="flex lg:ml-6">
                   <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
@@ -569,7 +502,7 @@ export default function Navigation() {
           </div>
         </nav>
       </header>
-      <AuthModal handleClose={handleClose} open={handleOpen} />
+      <AuthModal handleCloseAuthModal={handleCloseAuthModal} openAuthModal={openAuthModal} />
     </div>
   );
 }

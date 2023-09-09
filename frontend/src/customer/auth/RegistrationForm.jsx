@@ -1,21 +1,35 @@
 import { Button, Grid, TextField } from "@mui/material";
-import React from "react";
+import React,{useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getUser, register } from "../../state/auth/Action";
 
 const RegistrationForm = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt")
+  // In this case, it's extracting the authReducer property from the Redux store and assigning it to the authReducer constant using destructuring. 
+  // The auth constant will now contain the value of the auth property from the Redux store.
+  const {authReducer} = useSelector(store=>store)
+
+ useEffect(()=>{ 
+   if(jwt){
+     dispatch(getUser(jwt))
+   }
+ },[jwt, authReducer.jwt, dispatch])
 
    const handleSubmit = (e) =>{
-       e.prventDefault();
+       e.preventDefault();
 
        const data = new FormData(e.currentTarget)
        const  userData = {
           firstName:data.get("firstName"),
-          lastName:data.get("LastName"),
+          lastName:data.get("lastName"),
           password:data.get("password"),
           email: data.get("email"),
        }
+       dispatch(register(userData));
        console.log("user data :", userData);
     }
 
@@ -74,7 +88,7 @@ const RegistrationForm = () => {
             size="small"
             onClick={() => navigate("/login")}
           >
-            Register
+            LOGIN
           </Button>
         </div>
       </div>
