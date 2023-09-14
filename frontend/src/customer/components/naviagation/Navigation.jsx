@@ -69,7 +69,6 @@ export default function Navigation() {
   useEffect(() => {
     if (jwt) {
       dispatch(getUser(jwt));
-      console.log(authReducer.user?.firstName)
     }
   }, [jwt, authReducer.jwt]);
 

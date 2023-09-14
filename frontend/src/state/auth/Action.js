@@ -17,7 +17,7 @@ export const register = ( userData ) => async(dispatch) => {
      if(user.jwt){
         localStorage.setItem("jwt", user.jwt)
      }
-     console.log("user", user)
+    //  console.log("user", user)
      dispatch(registerSucces(user.jwt))
     }catch(error){
         console.log(error.response.data)
@@ -45,26 +45,6 @@ export const login = ( loginData ) => async(dispatch) => {
     }
 } 
 
-// export const getUserRequest = () => ({type: GET_USER_REQUEST});
-// export const getUserSucces  = () => ({type: GET_USER_SUCCESS});
-// export const getUserFailure = (error) =>({type: GET_USER_FAILURE, payload: error})
-
-// export const getUser = (jwt ) => async(dispatch) => {
-//     dispatch(getUserRequest);
-//     try{
-//      const response = await axios.get(`${BASE_URL}/api/users/profile`, {
-//         headers: {  "Authorization" : `Bearer ${jwt}`}
-//      } );
-//      const user = await response.data;
-//      if(user.jwt){
-//         localStorage.setItem("jwt", user.jwt)
-//      }
-//      console.log("user", user)
-//      dispatch(getUserSucces(user))
-//     }catch(error){
-//         dispatch(getUserFailure(error.message))
-//     }
-// } 
 export const getUserRequest = () => ({ type: GET_USER_REQUEST });
 export const getUserSuccess = (user) => ({ type: GET_USER_SUCCESS, payload: user });
 export const getUserFailure = (error) => ({ type: GET_USER_FAILURE, payload: error });
