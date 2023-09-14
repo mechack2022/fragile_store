@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 
 import { Fragment, useState } from "react";
@@ -13,10 +13,12 @@ import {
 } from "@heroicons/react/20/solid";
 import { mens_kurta } from "../../../data/Men/men_kurta";
 import { filters, singleFilter } from "./filterData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { FormControl } from "@mui/base";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { findProduct } from "../../../state/product/Action";
+import { useDispatch, useSelector } from "react-redux";
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -27,12 +29,27 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const  Product = () => {
+const Product = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const param = useParams();
+  const dispatch = useDispatch();
+
+  const decodedQuery = decodeURIComponent(location.search);
+  const searchParams = new URLSearchParams(decodedQuery);
+  const colorValue = searchParams.get("color");
+  const priceValue = searchParams.get("price");
+  const discountValue = searchParams.get("discount");
+  const stockValue = searchParams.get("stock");
+  const pageNumberValue = searchParams.get("page") || 1;
+  const sizeValue = searchParams.get("size");
+  const sortValue = searchParams.get("sort");
+
+  const { ProductReducer } = useSelector((store) => store);
 
   const handleFilter = (value, sectionId) => {
-    const searchParams = new URLSearchParams(window.location.search);
+    const searchParams = new URLSearchParams(location.search);
     let filterValue = searchParams.getAll(sectionId);
     if (filterValue.length > 0 && filterValue[0].split(",").includes(value)) {
       filterValue = filterValue[0].split(",").filter((item) => item !== value);
@@ -51,13 +68,47 @@ const  Product = () => {
   };
 
   const handleRadioFilterChange = (e, sectionId) => {
-    const searchParams = new URLSearchParams(window.location.search);
+    const searchParams = new URLSearchParams(location.search);
     searchParams.set(sectionId, e.target.value);
     const query = searchParams.toString();
     // Update the browser's URL with the new query
     navigate({ search: `?${query}` });
   };
 
+// useEffect(() =>{
+//   console.log("API Request URL:", 
+//   `color=&size&minPrice=${0}&maxPrice=${10000}&minDiscount=${0}&category=${mens_kurta}&sort=${"price_high"}&pageNumber=${0}&pageSize=${10}&stock=in_stock`
+// },[])
+
+  useEffect(() => {
+    const [minPrice, maxPrice] =
+      priceValue === null ? [0, 10000] : priceValue.split("-").map(Number);
+
+    const data = {
+      category: param.levelThree,
+      color: colorValue,
+      size: sizeValue || [],
+      minPrice,
+      maxPrice,
+      minDiscount: discountValue,
+      sort: sortValue || "price_low",
+      stock: stockValue,
+      pageNumber: pageNumberValue - 1,
+      pageSize: 10,
+    };
+    console.log("API Request URL:", `api/products?color=${colorValue}&size=${sizeValue}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${discountValue}&category=${param.levelThree}&sort=${sortValue}&pageNumber=${pageNumberValue}&pageSize=${10}&stock=${stockValue}`);
+    dispatch(findProduct(data));
+  }, [
+    param.levelThree,
+    colorValue,
+    priceValue,
+    discountValue,
+    stockValue,
+    pageNumberValue,
+    sizeValue,
+    sortValue,
+    dispatch,
+  ]);
   return (
     <div className="bg-white">
       <div>
@@ -392,6 +443,6 @@ const  Product = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Product;

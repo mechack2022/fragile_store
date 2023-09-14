@@ -21,14 +21,18 @@ export const findProduct = (requestData) => async (dispatch) => {
     stock,
     pageNumber,
     pageSize,
-  } = requestData;
+  } = requestData; 
+ 
   try {
-    const { data } = api.get(
+    const { data } = await api.get(
       `api/products?color=${color}&size=${size}&minPrice=${minPrice}&maxPrice=${maxPrice}&
       minDiscount=${minDiscount}&category=${category}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}&stock=${stock}`
     );
+    console.log("Products data: ", data)
+    console.log("Products data: ", category)
     dispatch({type: FIND_PRODUCTS_SUCCESS, payload:data});
   } catch (error) {
+    console.log(error.response)
     dispatch({type: FIND_PRODUCTS_FIALURE, payload: error.message})
   }
 };
@@ -36,7 +40,6 @@ export const findProduct = (requestData) => async (dispatch) => {
 export const findProductById = (requestData) => async ( dispatch ) =>{
    const {productId} = requestData;
    dispatch({type:FIND_PRODUCT_BY_ID_REQUEST, payload:productId });
-
   try{
     const response = api.get(`api/product/${productId}`);
     dispatch({type:FIND_PRODUCT_BY_ID_SUCCESS, payload: response.data})
