@@ -1,21 +1,30 @@
 import { Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getCart } from "../../../state/cart/Action";
 import CartItem from "./CartItems";
 
 const Cart = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { cartReducer } = useSelector((store) => store);
 
   const handleCheckout = () => {
     navigate("/checkout?step=2");
   };
 
+  useEffect(() => {
+    dispatch(getCart());
+  }, [cartReducer.updateCartItem, cartReducer.removeCartItem, dispatch]);
+
   return (
     <div>
       <div className="lg:grid top-0 my-10 lg:grid-cols-3 lg:px-16 relative">
         <div className="col-span-2">
-          {[1, 1, 1, 1].map((item) => (
-            <CartItem />
+          {cartReducer?.cartItems.map((item) => (
+            <CartItem key={item.id} item={item} />
           ))}
         </div>
         <div className="h-[100vh] px-5 mt-5 lg:mt-0">
@@ -25,11 +34,11 @@ const Cart = () => {
             <div className="font-semibold space-y-3 mx-2 mb-10">
               <div className="flex justify-between pt-3 text-black">
                 <span>Price</span>
-                <span>#27874</span>
+                <span>{`#${cartReducer?.cart?.totalPrice}`}</span>
               </div>
               <div className="flex justify-between pt-3 text-black">
                 <span>Discount</span>
-                <span>#874</span>
+                <span>-{`#${cartReducer?.cart?.discount}`}</span>
               </div>
               <div className="flex justify-between pt-3 text-black">
                 <span>Delivery Charges</span>
@@ -37,7 +46,7 @@ const Cart = () => {
               </div>
               <div className="flex justify-between pt-3 text-black">
                 <span>Total Amount</span>
-                <span className="text-green-600">#29995</span>
+                <span className="text-green-600">{`#${cartReducer?.cart?.totalDiscountedPrice}`}</span>
               </div>
             </div>
             <Button

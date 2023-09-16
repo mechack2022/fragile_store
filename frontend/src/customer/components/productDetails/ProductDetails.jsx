@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
 import { mens_kurta } from "../../../data/Men/men_kurta";
 import HomeSectionCard from "../homeSectionCard/HomeSectionCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findProductById } from "../../../state/product/Action";
+import { addItemToCart } from "../../../state/cart/Action";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -63,13 +66,28 @@ function classNames(...classes) {
 
 export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const [selectedSize, setSelectedSize] = useState("");
+
+  const dispatch = useDispatch();
+  const params = useParams();
+  const { customerProductReducer } = useSelector((store) => store);
 
   const navigate = useNavigate();
 
-  const handleAddToCart = () =>{
-    navigate("/cart") 
-  }
+  const handleAddToCart = () => {
+    const data = {
+      productId: params.productId,
+      size: selectedSize.name,
+    }
+    // console.log("Data to add : ", data)
+    dispatch(addItemToCart(data))
+    navigate("/cart");
+  };
+
+  useEffect(() => {
+    const data = { productId: params.productId };
+    dispatch(findProductById(data));
+  }, [params.productId, dispatch]);
 
   return (
     <div className="bg-white lg:px-20">
@@ -118,8 +136,8 @@ export default function ProductDetails() {
           <div className="flex flex-col items-center">
             <div className="overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
               <img
-                src={product.images[0].src}
-                alt={product.images[0].alt}
+                src={customerProductReducer?.product?.imageUrl}
+                alt={customerProductReducer?.product?.brand}
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -141,11 +159,10 @@ export default function ProductDetails() {
             <div className="lg:col-span-2">
               <h1 className="text-lg lg:text-xl font-semibold text-gray-900">
                 {" "}
-                Universer Outfit
+                {customerProductReducer?.product?.brand}
               </h1>
               <h1 className="text-lg lg:text-xl font-semibold opacity-60 text-gray-900 pt-1">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id,
-                obcaecati.
+                {customerProductReducer?.product?.description}
               </h1>
             </div>
 
@@ -153,9 +170,15 @@ export default function ProductDetails() {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 items-center text-lg lg:text-xl mt-6 text-gray-900">
-                <p className="font-semibold">$1900</p>
-                <p className="line-through opacity-950">$121</p>
-                <p className="text-green-900 font-semibold">5% 0ff</p>
+                <p className="font-semibold">
+                  `${customerProductReducer?.product?.discountedPrice}`
+                </p>
+                <p className="line-through opacity-950">
+                  ${customerProductReducer?.product?.price}
+                </p>
+                <p className="text-green-900 font-semibold">
+                  {customerProductReducer?.product?.discountPercent}% 0ff
+                </p>
               </div>
               {/* Reviews */}
               <div className="mt-6">
@@ -287,7 +310,7 @@ export default function ProductDetails() {
                 </div>
 
                 <Button
-                onClick={handleAddToCart}
+                  onClick={handleAddToCart}
                   color="primary"
                   variant="contained"
                   sx={{ px: "2rem", py: "1rem", mt: "2rem" }}
