@@ -12,7 +12,7 @@ const Cart = () => {
   const { cartReducer } = useSelector((store) => store);
 
   const handleCheckout = () => {
-    navigate("/checkout?step=2");
+    navigate("/checkout?step=1");
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Cart = () => {
         <div className="lg:grid top-0 my-10 lg:grid-cols-3 lg:px-16 relative">
           <div className="col-span-2">
             {cartReducer?.cartItems.map((item) => (
-              <CartItem key={item.product.id} item={item} />
+              <CartItem item={item} />
             ))}
           </div>
           <div className="h-[100vh] px-5 mt-5 lg:mt-0">

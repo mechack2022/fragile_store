@@ -29,19 +29,19 @@ const CartItem = ({ item }) => {
         <div className="w-[5rem] h-[5rem] lg:w-[9rem] lg:h-[9rem] ">
           <img
             className="w-full h-full object-cover object-top"
-            src={item.product.imageUrl}
+            src={item?.product.imageUrl}
             alt=""
           />
         </div>
         <div className="ml-5 space-y-1">
-          <p className="font-semibold">{item.product.description}</p>
-          <p className="opacity-70 mt-2">{`Size: ${item.size} ${item.product.color} `}</p>
-          <p className="opacity-70">{`Seller: ${item.product.brand}`}</p>
+          <p className="font-semibold">{item?.product.description}</p>
+          <p className="opacity-70 mt-2">{`Size: ${item?.size} ${item?.product?.color} `}</p>
+          <p className="opacity-70">{`Seller: ${item?.product?.brand}`}</p>
           <div className="flex items-center space-x-5 text-lg lg:text-xl text-gray-900 mt-6 ">
-            <p className="font-semibold">{`#${item.product.discountedPrice}`}</p>
-            <p className="line-through opacity-50">{`#${item.product.price}`}</p>
+            <p className="font-semibold">{`#${item?.product?.discountedPrice}`}</p>
+            <p className="line-through opacity-50">{`#${item?.product?.price}`}</p>
             <p className="text-green-600 font-semibold">
-              ${item.product.discountPercent}% off
+              ${item?.product?.discountPercent}% off
             </p>
           </div>
         </div>
@@ -54,7 +54,7 @@ const CartItem = ({ item }) => {
           <span className="py-1 px-7 rounded-sm border">{item.quantity}</span>
           <IconButton sx={{ color: "RGB(145 85 253)" }} onClick={()=>handleUpdateCartItem(1)}  >
             <AddCircleOutlineIcon />
-          </IconButton>
+          </IconButton>   
         </div>
         <div>
           <Button onClick={handleDeleteCartItem} sx={{ color: "RGB(145 85 253)" }}>REMOVE</Button>

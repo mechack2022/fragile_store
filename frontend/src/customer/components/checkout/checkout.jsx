@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import OrderSummary from "./OrderSummary";
 import DelieveryAdress from "./DelieveryAdress";
 
-const steps = ["Login", "Add Delivery Address", "Payment", "Order Summary"];
+const steps = ["Login", "Add Delivery Address", "Order Summary", "Payment"];
 
 const Checkout =  () => {
   const [activeStep, setActiveStep] = React.useState(0);
