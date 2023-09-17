@@ -63,18 +63,18 @@ export const cartReducer = (state = initialState, action) => {
         isloading: true,
         error: null,
       };
-    // case REMOVE_CART_ITEM_SUCCESS:
-    //   return {
-    //     ...state,
-    //     removeCartItem: action.payload,
-    //     isloading: false,
-    //   };
     case REMOVE_CART_ITEM_SUCCESS:
-  return {
-    ...state,
-    cartItems: state.cartItems.filter((item) => item.id !== action.payload),
-    isloading: false,
-  };
+      return {
+        ...state,
+        removeCartItem: action.payload,
+        isloading: false,
+      };
+  //   case REMOVE_CART_ITEM_SUCCESS:
+  // return {
+  //   ...state,
+  //   cartItems: state.cartItems.filter((item) => item.id !== action.payload),
+  //   isloading: false,
+  // };
     case REMOVE_CART_ITEM_FAILURE:
       return { ...state, isloading: true, error: action.payload };
     case UPDATE_CART_ITEM_SUCCESS:

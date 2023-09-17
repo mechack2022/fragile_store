@@ -14,21 +14,13 @@ const CartItem = ({ item }) => {
     dispatch(removeCartItem(item.id)) 
   }
 
-  // const handleUpdateCartItem = (num) =>{
-  //    const data = {
-  //       data : { quantity: item.quantity + num } ,
-  //       cartItemId: item?.id
-  //    }
-  //    dispatch(updateCartItem(data))
-  // }
-
-  const handleUpdateCartItem = (num) => {
-    const updatedQuantity = item.quantity + num;
-    const data = {
-      quantity: updatedQuantity,
-    };
-    dispatch(updateCartItem(item.id, data)); // Assuming item.id is the cart item's ID
-  };
+  const handleUpdateCartItem = (num) =>{
+     const data = {
+        data : { quantity: item.quantity + num } ,
+        cartItemId: item?.id
+     }
+     dispatch(updateCartItem(data))
+  }
   
 
   return (
@@ -56,7 +48,7 @@ const CartItem = ({ item }) => {
       </div>
       <div className="flex items-center space-x-20 pt-4">
         <div className="flex items-center space-x-2">
-          <IconButton onClick={()=>handleUpdateCartItem(-1)} disable={item.quantity <=1}  >
+          <IconButton onClick={()=>handleUpdateCartItem(-1)} disabled={item.quantity <=1}  >
             <RemoveCircleOutlineIcon />
           </IconButton>
           <span className="py-1 px-7 rounded-sm border">{item.quantity}</span>

@@ -171,7 +171,7 @@ export default function ProductDetails() {
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 items-center text-lg lg:text-xl mt-6 text-gray-900">
                 <p className="font-semibold">
-                  `${customerProductReducer?.product?.discountedPrice}`
+                  ${customerProductReducer?.product?.discountedPrice}
                 </p>
                 <p className="line-through opacity-950">
                   ${customerProductReducer?.product?.price}

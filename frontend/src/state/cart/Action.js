@@ -35,25 +35,25 @@ export const getCart = () => async (dispatch) => {
   }
 };
 
-// export const updateCartItem = (requestData) => async (dispatch) => {
-//   const { cartItemId } = requestData;
-//   dispatch({ type: UPDATE_CART_ITEM_REQUEST });
-//   try {
-//     const response = await api.put(`api/cartItem/${cartItemId}`);
-//     dispatch({ type: UPDATE_CART_ITEM_SUCCESS, payload: response.data});
-//   } catch (error) {
-//     dispatch({ type: UPDATE_CART_ITEM_FAILURE, payload: error.message });
-//   }
-// };
-export const updateCartItem = (cartItemId, requestData) => async (dispatch) => {
+export const updateCartItem = (requestData) => async (dispatch) => {
+  const { cartItemId, data } = requestData;
   dispatch({ type: UPDATE_CART_ITEM_REQUEST });
   try {
-    const response = await api.put(`api/cartItem/${cartItemId}`, requestData);
-    dispatch({ type: UPDATE_CART_ITEM_SUCCESS, payload: response.data });
+    const response = await api.put(`api/cartItem/${cartItemId}`, data);
+    dispatch({ type: UPDATE_CART_ITEM_SUCCESS, payload: response.data});
   } catch (error) {
     dispatch({ type: UPDATE_CART_ITEM_FAILURE, payload: error.message });
   }
 };
+// export const updateCartItem = (cartItemId, requestData) => async (dispatch) => {
+//   dispatch({ type: UPDATE_CART_ITEM_REQUEST });
+//   try {
+//     const response = await api.put(`api/cartItem/${cartItemId}`, requestData);
+//     dispatch({ type: UPDATE_CART_ITEM_SUCCESS, payload: response.data });
+//   } catch (error) {
+//     dispatch({ type: UPDATE_CART_ITEM_FAILURE, payload: error.message });
+//   }
+// };
 
 
 export const removeCartItem = (cartItemId) => async (dispatch) => {
