@@ -18,7 +18,7 @@ export const addItemToCart = (requestData) => async (dispatch) => {
   dispatch({ type: ADD_ITEM_TO_CART_REQUEST, payload: requestData });
   try {
     const response = await api.post("api/cart/add", requestData);
-    dispatch({ type: ADD_ITEM_TO_CART_SUCCESS, payload: response.mesage });
+    dispatch({ type: ADD_ITEM_TO_CART_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: ADD_ITEM_TO_CART_FAILURE, payload: error.message });
   }
@@ -27,30 +27,32 @@ export const addItemToCart = (requestData) => async (dispatch) => {
 export const getCart = () => async (dispatch) => {
   dispatch({ type: GET_CART_REQUEST });
   try {
-    const response = await api.post(`api/cart/`);
+    const response = await api.get(`api/cart/`);
     dispatch({ type: GET_CART_SUCCESS, payload: response.data });
-  } catch (error) {
+    console.log("current user cart: ", response.data)
+  } catch (error) { 
     dispatch({ type: GET_CART_FAILURE, payload: error.message });
   }
 };
 
 export const updateCartItem = (requestData) => async (dispatch) => {
-  const { cartItemId } = requestData;
+  const { cartItemId, data } = requestData;
   dispatch({ type: UPDATE_CART_ITEM_REQUEST });
   try {
-    const response = await api.put(`api/cartItem/${cartItemId}`);
-    dispatch({ type: UPDATE_CART_ITEM_SUCCESS, payload: response.data });
+    const response = await api.put(`api/cartItem/${cartItemId}`, data);
+    dispatch({ type: UPDATE_CART_ITEM_SUCCESS, payload: response.data});
   } catch (error) {
     dispatch({ type: UPDATE_CART_ITEM_FAILURE, payload: error.message });
   }
 };
 
-export const removeCartItem = (requestData) => async (dispatch) => {
-  const { cartItemId } = requestData;
+
+
+export const removeCartItem = (cartItemId) => async (dispatch) => {
   dispatch({ type: REMOVE_CART_ITEM_REQUEST });
   try {
     const response = await api.delete(`api/cartItem/${cartItemId}`);
-    dispatch({ type: REMOVE_CART_ITEM_SUCCESS, payload: response.data });
+    dispatch({ type: REMOVE_CART_ITEM_SUCCESS, payload: cartItemId });
   } catch (error) {
     dispatch({ type: REMOVE_CART_ITEM_FAILURE, payload: error.message });
   }

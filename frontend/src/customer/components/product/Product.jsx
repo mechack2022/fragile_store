@@ -14,11 +14,18 @@ import {
 import { mens_kurta } from "../../../data/Men/men_kurta";
 import { filters, singleFilter } from "./filterData";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import {
+  FormControlLabel,
+  FormLabel,
+  Pagination,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import { FormControl } from "@mui/base";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { findProduct } from "../../../state/product/Action";
 import { useDispatch, useSelector } from "react-redux";
+
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -46,7 +53,8 @@ const Product = () => {
   const sizeValue = searchParams.get("size");
   const sortValue = searchParams.get("sort");
 
-  const { ProductReducer } = useSelector((store) => store);
+  const { customerProductReducer } = useSelector((store) => store);
+
 
   const handleFilter = (value, sectionId) => {
     const searchParams = new URLSearchParams(location.search);
@@ -74,29 +82,30 @@ const Product = () => {
     // Update the browser's URL with the new query
     navigate({ search: `?${query}` });
   };
-
-// useEffect(() =>{
-//   console.log("API Request URL:", 
-//   `color=&size&minPrice=${0}&maxPrice=${10000}&minDiscount=${0}&category=${mens_kurta}&sort=${"price_high"}&pageNumber=${0}&pageSize=${10}&stock=in_stock`
-// },[])
+  // handle pagination
+  const handlePagination = (event, value) => {
+    const searchParams = new URLSearchParams();
+    searchParams.set("page", value);
+    const query = searchParams.toString();
+    navigate({ search: `?${query}` });
+  };
 
   useEffect(() => {
-    const [minPrice, maxPrice] =
-      priceValue === null ? [0, 10000] : priceValue.split("-").map(Number);
+    let [minPrice, maxPrice] = [0, 10000];
 
     const data = {
       category: param.levelThree,
-      color: colorValue,
+      color: colorValue || [],
       size: sizeValue || [],
-      minPrice,
-      maxPrice,
+      minPrice: priceValue === null ? null : minPrice,
+      maxPrice: priceValue === null ? null : maxPrice,
       minDiscount: discountValue,
       sort: sortValue || "price_low",
       stock: stockValue,
       pageNumber: pageNumberValue - 1,
       pageSize: 10,
     };
-    console.log("API Request URL:", `api/products?color=${colorValue}&size=${sizeValue}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${discountValue}&category=${param.levelThree}&sort=${sortValue}&pageNumber=${pageNumberValue}&pageSize=${10}&stock=${stockValue}`);
+
     dispatch(findProduct(data));
   }, [
     param.levelThree,
@@ -432,11 +441,23 @@ const Product = () => {
               {/* Product grid */}
               <div className="lg:col-span-4 w-full">
                 <div className="flex flex-wrap justify-center bg-white py-5">
-                  {mens_kurta.map((item) => (
-                    <ProductCard product={item} />
-                  ))}
+                  {customerProductReducer.products &&
+                    customerProductReducer.products?.content?.map((item) => (
+                      <ProductCard product={item} />
+                    ))}
                 </div>
               </div>
+            </div>
+          </section>
+          {/* pagination tab  */}
+          <section className="w-full px-[3.6rem]">
+            <div className="flex justify-center px-4 py-5">
+              <Pagination
+                color="secondary"
+                count={customerProductReducer.products?.totalPages}
+                // count={5}
+                onChange={handlePagination}
+              />
             </div>
           </section>
         </main>

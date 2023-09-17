@@ -1,20 +1,28 @@
 import { Box, Button, Grid, TextField } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createOrder } from "../../../state/order/Action";
 import AddressCard from "../addressCard/AddressCard";
 
-const DelieveryAdress = (e) => {
+const DelieveryAdress = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const address = {
       firstName: data.get("firstName"),
       lastName: data.get("lastName"),
-      Address: data.get("address"),
+      street_address: data.get("address"),
       city: data.get("city"),
       zipCode: data.get("zip"),
       state: data.get("region"),
-      phoneNumber: data.get("phoneNumber"),
+      mobile: data.get("phoneNumber")
     };
+    const requestData = { address, navigate };
+    dispatch(createOrder(requestData));
     console.log("Address", address);
   };
   return (
