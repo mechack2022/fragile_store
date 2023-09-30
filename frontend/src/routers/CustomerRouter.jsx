@@ -9,6 +9,8 @@ import Checkout from "../customer/components/checkout/checkout";
 import Order from "../customer/components/order/Order";
 import OrderDetails from "../customer/components/order/OrderDetails";
 import Navigation from "../customer/components/naviagation/Navigation.jsx";
+import PaymentSuccess from "../customer/components/payment/PaymentSuccess";
+import { VerifyPayment } from "../customer/components/payment/VerifyPayment";
 
 const CustomerRouter = () => {
   return (
@@ -28,6 +30,8 @@ const CustomerRouter = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/account/order" element={<Order />} />
         <Route path="/account/order/:orderId" element={<OrderDetails />} />
+        <Route path="/payment/:orderId" element={<PaymentSuccess />} />
+        <Route path="/payment/verifyPayment" element={<VerifyPayment/>} />
       </Routes>
 
       <div className="">

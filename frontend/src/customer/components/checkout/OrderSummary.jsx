@@ -2,8 +2,9 @@ import { Button } from "@mui/material";
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getOrderById } from "../../../state/order/Action";
+import { createPayment } from "../../../state/payment/Action";
 import AddressCard from "../addressCard/AddressCard";
 import CartItem from "../cart/CartItems";
 
@@ -13,6 +14,7 @@ const OrderSummary = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const orderId = searchParams.get("order_id");
+  const navigate = useNavigate();
 
   console.log(orderReducer.order);
 
@@ -20,6 +22,23 @@ const OrderSummary = () => {
     dispatch(getOrderById);
   }, [orderId, dispatch]);
 
+  // const handleCheckout = () =>{
+  //   console.log("orderId :", orderId);
+  //   dispatch(createPayment(orderId));
+  //   navigate(`/payment/verifyPayment/${orderId}`)
+  // }
+  const handleCheckout = async () => {
+    console.log("orderId :", orderId);
+    // Dispatch createPayment and capture the response
+    const response = await dispatch(createPayment(orderId));
+    // Extract the reference from the response
+    const reference = response.data.data.reference;
+    console.log("reference :", reference);
+    // Redirect to the payment verification page with reference and orderId as URL parameters
+    navigate(`/payment/verifyPayment?reference=${reference}&orderId=${orderId}`);
+  };
+  
+  
   return (
     <div>
       <div className="p-5 shadow-lg rounded-s-md border">
@@ -66,8 +85,9 @@ const OrderSummary = () => {
                   mt: "2rem",
                   bgcolor: "RGB(145 85 253)",
                 }}
+                onClick ={handleCheckout}
               >
-                Add to cart
+                Checkout
               </Button>
             </div>
           </div>
