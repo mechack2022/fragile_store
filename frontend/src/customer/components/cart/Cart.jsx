@@ -21,7 +21,7 @@ const Cart = () => {
 
   return (
     <div>
-      {cartReducer.cartItems.length === 0 ? (
+      {cartReducer?.cartItems.length === 0 ? (
         <div className="empty-cart h-[100vh] text-center py-20">
           <h1 className="text-2xl font-semibold">Your cart is empty</h1>
           <button
@@ -36,8 +36,8 @@ const Cart = () => {
       ) : (
         <div className="lg:grid top-0 my-10 lg:grid-cols-3 lg:px-16 relative">
           <div className="col-span-2">
-            {cartReducer?.cartItems.map((item) => (
-              <CartItem item={item} />
+            {cartReducer?.cartItems.map((item, index) => (
+              <CartItem key={index} item={item} />
             ))}
           </div>
           <div className="h-[100vh] px-5 mt-5 lg:mt-0">
